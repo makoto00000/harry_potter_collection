@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import useSWR from "swr";
 
 type Character = {
   id: string,
@@ -31,37 +31,21 @@ type Character = {
   image: string
 }
 
+const fetcher = async (key: string) => {
+  return await fetch(key).then((res) => res.json());
+}
+
 export default function Home() {
-  const [characters, setCharactors] = useState<Character[] | null>(null);
-  const [error, setError] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(true);
+  const {data, error, isLoading} = useSWR<Character[]>("https://hp-api.onrender.com/api/characters", fetcher)
 
-  const getCharacters = async() => {
-    const res = await fetch("https://hp-api.onrender.com/api/characters");
-    try {
-      const data = await res.json();
-      setCharactors(data);
-
-    } catch (error) {
-      setError(true);
-
-    } finally {
-      setLoading(false);
-    }
-
-  }
-  useEffect(() => {
-    getCharacters();
-  }, [])
-
-if (loading) return (<div className={"loading"} >Loading...</div>)
-if (error) return (<div className={"error"} >Data acquisition failed.</div>)
-if (characters) return (
+if (isLoading) return (<div className={"loading"} >Loading...</div>)
+if (error) return (<div className={error} >Data acquisition failed.</div>)
+if (data) return (
     <main>
       <h1>Characters</h1>
-      <Link href={"/swr"}>SWR</Link>
+      <Link className={"link"} href={"/"}>TOP</Link>
       <div className={"characters"}>
-        {characters.map((character) => (
+        {data.map((character) => (
           <div key={character.id} className={"character"}>
             <Image
               className={"image"}

@@ -1,0 +1,37 @@
+.characters {
+  margin-top: 50px;
+  color: #161616;
+  font-family: "cinzel";
+}
+
+.character {
+  display: flex;
+  background: #E5E1E2;
+  padding: 10px 50px;
+  border-radius: 5px;
+  margin-bottom: 50px;
+  border: 3px solid #161616;
+}
+
+.image {
+  margin-right: 20px;
+  height: 90px;
+  width: 70px;
+}
+
+.name {
+  font-size: 30px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.birth {
+  font-size: 20px;
+  color: #8C3342;
+}
+
+.loading, .error {
+  font-size: 30px;
+  padding-top: 100px;
+  text-align: center;
+}
